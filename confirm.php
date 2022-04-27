@@ -11,36 +11,33 @@ include_once("includes.php");
     <?php
 
 if (isset($_POST['submit_confirm'])) { ### if the form is submitted ###
-    $product_id = $_POST['product_id']; ### catch the variable ###
-    $customer_id = $_POST['customer_id']; ### catch the variable ###
+    $petname = $_POST['petname']; ### catch the variable ###
+    $dropofftime = $_POST['dropofftime']; ### catch the variable ###
 
-    $sql = "SELECT * FROM products WHERE product_id = $product_id "; ### query the data  
+    $sql = "SELECT * FROM customers WHERE petname = $petname "; ### query the data  
     $result = $conn->query($sql)->fetch();
 
     if (isset($result)) { ### if the result is not null, unpack data
-        $product_id = $result['product_id'];
-        $vin = $result['vin'];
-        $brand = $result['brand'];
-        $model = $result['model'];
-        $price = $result['price'];
-        $production_year = $result['production_year'];
+        $petname = $result['petname'];
+        $dropofftime = $result['dropofftime'];
+        $pettype = $result['pettype'];
         $image = $result['image'];
     }
 
     ##### Insert an order record into the orders table #####
-    $sql = "INSERT INTO orders(customer_id, product_id) VALUES (?, ?)";
+    $sql = "INSERT INTO customers (petname, dropofftime) VALUES (?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$customer_id, $product_id]);
     echo "The orders table is updated in database.<br>";
 
     ##### deduct one product from the inventory number #####
-    $sql = "UPDATE inventory SET num_in_stock = (num_in_stock - 1) WHERE product_id = $product_id";
+    $sql = "UPDATE customers WHERE petname = $petname";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     echo "The inventory table is updated in database.<br>";
 
     ##### mark the product as  solde in  the Products Page
-    $sql = "UPDATE products SET sold = 'Sold' WHERE product_id = $product_id";
+    $sql = "UPDATE petname WHERE product_id = $petname";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     echo "The sold products is removed from the products table in database.<br>";
@@ -51,17 +48,17 @@ if (isset($_POST['submit_confirm'])) { ### if the form is submitted ###
 
 ?>
 
-<h2>You ordered the following product: </h2>
+<h2>You ordered the following service: </h2>
 
 <table>
     <tr>
-        <td> <?php echo $brand; ?></td>
+        <td> <?php echo $petname; ?></td>
     </tr>
     <tr>
-        <td> <?php echo $model; ?></td>
+        <td> <?php echo $dropofftime; ?></td>
     </tr>
     <tr>
-        <td> <?php echo $production_year; ?></td>
+        <td> <?php echo $pickuptime; ?></td>
     </tr>
     <tr>
         <td>
@@ -69,7 +66,7 @@ if (isset($_POST['submit_confirm'])) { ### if the form is submitted ###
         </td>
     </tr>
     <tr>
-        <td> <?php echo $price; ?></td>
+        <td> <?php echo $Payment_Total; ?></td>
     </tr>
 </table>
 
