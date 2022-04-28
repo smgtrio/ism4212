@@ -54,10 +54,10 @@ if (isset($_POST['submit_product'])) {      ### if submitted/posted
                 <td> <?php echo $price; ?></td>
             </tr>
 
-            <div> Please enter your Customer ID </div>
-            <input type="text" name="customer_id">
         </table>
 
+        <div> Please enter your Customer ID </div>
+        <input type="text" name="customer_id">
 
         <input name='product_id' value=<?php echo $product_id; ?> hidden>
 
